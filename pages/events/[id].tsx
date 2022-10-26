@@ -4,13 +4,18 @@ import { getEventById } from '../../DATA';
 import EventSummary from '../../components/event-detail/event-summary'
 import EventLogistics from '../../components/event-detail/event-logistics'
 import EventContent from '../../components/event-detail/event-content'
+import ErrorAlert from '../../components/error-alert/error-alert';
+import ButtonExplore from '../../components/ui/Button';
 
 const EventPage = () => {
     const router = useRouter()
     const eventId = router.query['id']
     const event = getEventById(eventId)
     if (!event) {
-        return <p>Not found event!</p>
+        return <Fragment>
+            <ErrorAlert><p>Event Not Found</p></ErrorAlert>
+            <div className='center'><ButtonExplore link='/events'>Show All Events</ButtonExplore></div>
+        </Fragment>
     }
     return <Fragment>
         <EventSummary title={event.title} />
