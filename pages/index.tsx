@@ -13,7 +13,8 @@ export async function getStaticProps() {
   return {
     props : {
       events
-    }
+    },
+    revalidate: 1800 //tim nap du lieu sau 30p
   }
 }
 

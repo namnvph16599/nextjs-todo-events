@@ -5,7 +5,7 @@ import EventLogistics from '../../components/event-detail/event-logistics'
 import EventContent from '../../components/event-detail/event-content'
 import ErrorAlert from '../../components/error-alert/error-alert';
 import ButtonExplore from '../../components/ui/Button';
-import { getAllEvents, getEventById } from '../../utils/api';
+import { getAllEvents, getEventById, getFeaturedEvents } from '../../utils/api';
 
 const EventPage = (props: {
     event: {
@@ -43,9 +43,10 @@ export async function getStaticProps(context: any) {
 }
 
 export async function getStaticPaths() {
-    const events = await getAllEvents()
+    const events = await getFeaturedEvents()
+    //pre render nhung event noi bat
     const paths = events.map((event: any) => ({ params: { id: event.id.toString() } }))
-    return { paths, fallback: false }
+    return { paths, fallback: true }
 }
 
 export default EventPage
