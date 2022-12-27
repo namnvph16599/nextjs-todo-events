@@ -1,10 +1,20 @@
 import type { NextPage } from 'next'
 import EventList from '../components/events/EventList'
-import { getFeaturedEvents } from '../DATA'
+import {getFeaturedEvents} from '../utils/api'
+const Home: NextPage = (props : {events ; any}) => {
+  return <EventList events={props.events} />
+} 
+// why this should use getStaticProps?
+//SEO
+// du lieu it thay doi
 
-const Home: NextPage = () => {
-  const featuredEvent = getFeaturedEvents()
-  return <EventList events={featuredEvent} />
+export async function getStaticProps() {
+  const events = await getFeaturedEvents()
+  return {
+    props : {
+      events
+    }
+  }
 }
 
 export default Home
