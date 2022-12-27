@@ -1,7 +1,7 @@
 import type { NextPage } from 'next'
 import EventList from '../components/events/EventList'
 import {getFeaturedEvents} from '../utils/api'
-const Home: NextPage = (props : {events ; any}) => {
+const Home: NextPage = (props : {events : any}) => {
   return <EventList events={props.events} />
 } 
 // why this should use getStaticProps?
