@@ -6,6 +6,7 @@ import EventContent from '../../components/event-detail/event-content'
 import ErrorAlert from '../../components/error-alert/error-alert';
 import ButtonExplore from '../../components/ui/Button';
 import { getAllEvents, getEventById, getFeaturedEvents } from '../../utils/api';
+import Head from 'next/head'
 
 const EventPage = (props: {
     event: {
@@ -17,13 +18,26 @@ const EventPage = (props: {
     }
 }) => {
     const event = props.event
+
+    let baseHeader = <Head>
+        <title>Event detali</title>
+        <meta name='description' content={`Event detail`} />
+    </Head>
+
     if (!event) {
         return <Fragment>
+            {baseHeader}
             <ErrorAlert><p>Event Not Found</p></ErrorAlert>
             <div className='center'><ButtonExplore link='/events'>Show All Events</ButtonExplore></div>
         </Fragment>
     }
+
+    baseHeader = <Head>
+        <title>Event detali</title>
+        <meta name='description' content={`Event name ${event.title}`} />
+    </Head>
     return <Fragment>
+        {baseHeader}
         <EventSummary title={event.title} />
         <EventLogistics data={event.date} image={event.image} address={event.location} imageAlt={event.title} />
         <EventContent ><p>{event.description}</p></EventContent>
@@ -33,7 +47,7 @@ const EventPage = (props: {
 
 export async function getStaticProps(context: any) {
     const eventId = context.params.id
-    const event =await  getEventById(eventId)
+    const event = await getEventById(eventId)
     console.log('eventId', eventId);
     return {
         props: {
@@ -44,9 +58,11 @@ export async function getStaticProps(context: any) {
 
 export async function getStaticPaths() {
     const events = await getFeaturedEvents()
+    console.log('events', events);
+
     //pre render nhung event noi bat
-    const paths = events.map((event: any) => ({ params: { id: event.id.toString() } }))
-    return { paths, fallback: true }
+    const paths = events.map((event: any) => ({ params: { id: event.id } }))
+    return { paths, fallback: false }
 }
 
 export default EventPage
