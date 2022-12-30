@@ -1,8 +1,16 @@
 import type { NextPage } from 'next'
+import Head from 'next/head'
+import { Fragment } from 'react'
 import EventList from '../components/events/EventList'
 import {getFeaturedEvents} from '../utils/api'
 const Home: NextPage = (props : {events : any}) => {
-  return <EventList events={props.events} />
+  return <Fragment>
+     <Head>
+            <title>Home Event</title>
+            <meta name='description' content="home Events ...."/>
+        </Head>
+    <EventList events={props.events} />
+    </Fragment>
 } 
 // why this should use getStaticProps?
 //SEO
